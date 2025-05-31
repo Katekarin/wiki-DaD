@@ -24,9 +24,21 @@ const equipment = [
     image: "shield_of_light"
   },
   {
-    name: "Mage's Robe",
+    name: "Mage's Tome",
     type: "equipment",
     description: "Increases starting hand by 1 card.",
     image: "mages_robe"
+  },
+  {
+    name: "Ring of fire exposure",
+    type: "equipment",
+    description: "Your fire spells deal adicional 1damage at the end of monster turn.",
+    image: "Ring_of_fire_exposure"
+  },
+  {
+    name: "Ring of ice ​​influence",
+    type: "equipment",
+    description: "Your frost spells are AOE.",
+    image: "Ring_of_ice_​​influence"
   }
 ];

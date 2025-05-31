@@ -65,24 +65,6 @@ function showCard(card) {
   cardDetails.style.backgroundImage = imagePath ? `url('${imagePath}')` : "";
   let html = "";
   switch (type) {
-    case "dungeon":
-      html = `
-        <div class="card-type">${type}</div>
-        <h2>${name}</h2>
-        <div class="dungeon-description">${description}</div>`;
-      break;
-    case "item":
-      html = `
-        <div class="card-type">${type}</div>
-          <h2>${name}</h2>
-          <div class="item-description">${description}</div>`;
-      break;
-    case "equipment":
-      html = `
-        <div class="card-type">${type}</div>
-        <h2>${name}</h2>
-        <div class="equipment-description">${description}</div>`;
-      break;
     case "enemy":
       html = `
       <div class="enemy-hp-right">${hp}</div>
@@ -117,17 +99,12 @@ function showCard(card) {
       </div>
     `;
      break;
-    case "attack":
-  html = `
-        <div class="card-type">${type}</div>
-        <h2>${name}</h2>
-        <div class="attack-description">${description}</div>`;
-break;
     default:
       html = `
         <div class="card-type">${type}</div>
         <h2>${name}</h2>
-        <p class="normal-description">${description}</p>`;
+        <div class="${type}-description">${description}</div>`;
+      break;
   }
 
   cardDetails.innerHTML = html;

@@ -1,4 +1,4 @@
-const character = {
+let character = {
   name: "Player",
   hp: 10,
   stats: {
@@ -76,5 +76,3 @@ function renderCharacterCard(char) {
   eqSection.append(eqTitle, eqList);
   container.appendChild(eqSection);
 }
-
-document.addEventListener("DOMContentLoaded", () => renderCharacterCard(character));

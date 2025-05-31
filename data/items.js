@@ -8,7 +8,7 @@ const items = [
   {
     name: "Scroll of regeneration",
     type: "item",
-    description: "it regens to User 2 health each battle round.",
+    description: "it regens to User 2 health at the end of each battle round.",
     image: "scroll_heal"
   },
   {
