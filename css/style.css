@@ -79,6 +79,10 @@
   word-break: break-word;
 }
 
+.passive-description {
+    height: 100px;
+}
+
 .normal-description {
   padding: 0 1.5rem 1.5rem;
   font-size: 1.1rem;
