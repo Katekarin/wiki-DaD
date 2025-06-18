@@ -45,7 +45,15 @@ function renderCardList(filter = "", type = "") {
       const div = document.createElement("div");
       div.className = "card-name";
       div.innerHTML = `<strong>${card.name}</strong><br><span class="card-type">${card.type}</span>`;
-      div.addEventListener("click", () => showCard(card));
+      div.addEventListener("click", () => {
+  if (card.type === "character sheet") {
+    renderCharacterCard(character);
+    console.log("Kliknięto kartę postaci:", character);
+  } else {
+    showCard(card);
+  }
+});
+
       content.appendChild(div);
     });
 
@@ -73,7 +81,7 @@ function showCard(card) {
 
       <div class="enemy-stats-bar">
         <div class="stat"><span>STR</span><strong>${strength}</strong></div>
-        <div class="stat"><span>DEX</span><strong>${agility}</strong></div>
+        <div class="stat"><span>AGI</span><strong>${agility}</strong></div>
         <div class="stat"><span>END</span><strong>${endurance}</strong></div>
         <div class="stat"><span>WIS</span><strong>${wisdom}</strong></div>
         <div class="stat"><span>INT</span><strong>${intuition}</strong></div>
@@ -88,9 +96,6 @@ function showCard(card) {
       </div>
     `).join('')}
 
-        </div>
-        <div class="reward-block">
-          ${reward}
         </div>
       </div>
 
