@@ -180,13 +180,9 @@ function renderCharacterCard(character) {
 }
 
 
-
-
-
-// Dodaj obsługę resetowania szerokości, gdy kliknięta zostanie inna karta
 function showCard(card) {
   cardDetails.classList.remove("character-active");
-  // ... reszta showCard jak poprzednio
+  
 }
 
 
