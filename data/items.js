@@ -2,7 +2,7 @@ const items = [
   {
     name: "Health Potion",
     type: "item",
-    description: "Recovers 4 points of health.",
+    description: "Recovers 4 points of health on use.",
     image: "health_potion"
   },
   {
@@ -22,5 +22,11 @@ const items = [
     type: "item",
     description: "It regains to You 1 health at the begining of your exploration round",
     image: "flesh_doll"
+  },
+  {
+    name: "Masohistic rage",
+    type: "item",
+    description: "until you finish your next turn, gain -2 dodge, but +2 damage",
+    image: "masohistic_rage"
   }
 ];
