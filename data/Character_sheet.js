@@ -1,3 +1,8 @@
+function toggleCharacterCard() {
+  document.getElementById('character-card').classList.toggle('active');
+}
+
+// dane testowe
 let character = {
   name: "Player",
   hp: 10,
@@ -15,7 +20,7 @@ let character = {
     boots: "",
     amulet: "",
     rings: "",
-    artifact: "Medalion Ziemi"
+    items: "Medalion Ziemi"
   },
   inventory: [
     ["", "", ""],
@@ -24,55 +29,189 @@ let character = {
   ]
 };
 
-function createStatRow(label, value, id) {
-  const li = document.createElement("li");
-  li.innerHTML = `<strong>${label}:</strong> <span id="${id}">${value}</span>`;
-  return li;
+// Dodajemy do data/Character_sheet.js
+
+function renderCharacterCard(character) {
+  const statOptions = Array.from({ length: 10 }, (_, i) => `<option value="${i}">${i}</option>`).join('');
+  
+  const itemOptions = items.map(item => `<option value="${item.name}">${item.name}</option>`).join('');
+  function getEquipmentOptionsForSlot(slot, selectedName = '') {
+  return equipment
+    .filter(eq => eq.slot === slot)
+    .map(eq => `<option value="${eq.name}" ${eq.name === selectedName ? 'selected' : ''}>${eq.name}</option>`)
+    .join('');
 }
 
-function renderCharacterCard(char) {
-  const container = document.getElementById("cardDetails");
-  container.innerHTML = ""; // wyczyść stare
 
-  const nameHeader = document.createElement("h2");
-  nameHeader.className = "char-name";
-  nameHeader.textContent = char.name;
-  container.appendChild(nameHeader);
+  const html = `
+    <div class="character-card">
+      <div class="char-column stats">
+        <h2>${character.name}</h2>
+        <p><strong>HP:</strong> ${character.hp}</p>
+        <ul class="char-stats">
+          ${Object.entries(character.stats).map(
+            ([key, val]) => `
+              <li>
+                <label><strong>${key.toUpperCase()}:</strong></label>
+                <select name="stat-${key}">
+                  ${statOptions.replace(`value="${val}"`, `value="${val}" selected`)}
+                </select>
+              </li>
+            `
+          ).join('')}
+        </ul>
+      </div>
 
-  // --- Statystyki ---
-  const statsSection = document.createElement("div");
-  statsSection.className = "char-section";
-  const statsTitle = document.createElement("h3");
-  statsTitle.textContent = "Statystyki";
-  const statsList = document.createElement("ul");
-  statsList.className = "char-stats";
+      <div class="char-column eq">
+        <h3>Ekwipunek</h3>
+        <ul class="char-eq">
+          <li><strong>Broń 1:</strong>
+            <select name="weapon1">
+              ${getEquipmentOptionsForSlot('weapon', character.equipment.weapon)}
+            </select>
+          </li>
+          <li><strong>Broń 2:</strong>
+            <select name="weapon2">
+              ${getEquipmentOptionsForSlot('weapon', character.equipment.weapon)}
+            </select>
+          </li>
+          <li><strong>Zbroja:</strong>
+            <select name="armor">
+              ${getEquipmentOptionsForSlot('armor', character.equipment.weapon)}
+            </select>
+          </li>
+          <li><strong>Hełm:</strong>
+            <select name="helmet">
+              ${getEquipmentOptionsForSlot('helmet', character.equipment.weapon)}
+            </select>
+          </li>
+          <li><strong>Buty:</strong>
+            <select name="boots">
+              ${getEquipmentOptionsForSlot('boots', character.equipment.weapon)}
+            </select>
+          </li>
+          <li><strong>Amulet:</strong>
+            <select name="amulet">
+              ${getEquipmentOptionsForSlot('amulet', character.equipment.weapon)}
+            </select>
+          </li>
+          <li><strong>Pierścienie:</strong>
+            <select name="rings">
+              ${getEquipmentOptionsForSlot('ring', character.equipment.weapon)}
+            </select>
+          </li>
+          <li><strong>Przedmiot1:</strong>
+            <select name="items">
+              ${itemOptions.replace(`value="${character.equipment.items}"`, `value="${character.equipment.items}" selected`)}
+            </select>
+          </li>
+                    <li><strong>Przedmiot2:</strong>
+            <select name="items">
+              ${itemOptions.replace(`value="${character.equipment.items}"`, `value="${character.equipment.items}" selected`)}
+            </select>
+          </li>
+                    <li><strong>Przedmiot3:</strong>
+            <select name="items">
+              ${itemOptions.replace(`value="${character.equipment.items}"`, `value="${character.equipment.items}" selected`)}
+            </select>
+          </li>
+        </ul>
+      </div>
+    </div>
 
-  statsList.appendChild(createStatRow("HP", char.hp, "char-hp"));
-  statsList.appendChild(createStatRow("STR", char.stats.str, "char-str"));
-  statsList.appendChild(createStatRow("END", char.stats.end, "char-end"));
-  statsList.appendChild(createStatRow("AGI", char.stats.agi, "char-agi"));
-  statsList.appendChild(createStatRow("INT", char.stats.int, "char-int"));
-  statsList.appendChild(createStatRow("WIS", char.stats.wis, "char-wis"));
+    <style>
 
-  statsSection.append(statsTitle, statsList);
-  container.appendChild(statsSection);
+      .character-active {
+        width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+        height: 375px;
+      }
 
-  // --- Ekwipunek ---
-  const eqSection = document.createElement("div");
-  eqSection.className = "char-section";
-  const eqTitle = document.createElement("h3");
-  eqTitle.textContent = "Ekwipunek";
-  const eqList = document.createElement("ul");
-  eqList.className = "char-equip";
+      .character-card {
+        display: flex;
+        padding: 1rem;
+        gap: 1.5rem;
+        background: rgba(0, 0, 0, 0.6);
+        border: 2px solid #888;
+        border-radius: 12px;
+        color: #fff;
+        font-family: 'Segoe UI', sans-serif;
+        width: 100%;
+        height: 100%;
+      }
 
-  eqList.appendChild(createStatRow("Hełm", char.equipment.helmet || "—", "char-helmet"));
-  eqList.appendChild(createStatRow("Zbroja", char.equipment.armor || "—", "char-armor"));
-  eqList.appendChild(createStatRow("Buty", char.equipment.boots || "—", "char-boots"));
-  eqList.appendChild(createStatRow("Broń", char.equipment.weapon || "—", "char-weapon"));
-  eqList.appendChild(createStatRow("Amulet", char.equipment.amulet || "—", "char-amulet"));
-  eqList.appendChild(createStatRow("Pierścienie", char.equipment.rings || "—", "char-rings"));
-  eqList.appendChild(createStatRow("Artefakt", char.equipment.artifact || "—", "char-artifact"));
+      .character-active {
+        margin-left: 100px;
+      }
 
-  eqSection.append(eqTitle, eqList);
-  container.appendChild(eqSection);
+      .char-column {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .char-column.eq {
+        flex: 3;
+      }
+
+      .char-column.stats {
+        flex: 1;
+      }
+
+      .char-stats li,
+      .char-eq li {
+        list-style: none;
+        margin: 0.3rem 0;
+      }
+
+      select {
+        margin-left: 0.5rem;
+        padding: 0.2rem;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+        background: #333;
+        color: #fff;
+      }
+    </style>
+  `;
+
+  cardDetails.classList.add("character-active");
+  cardDetails.innerHTML = html;
 }
+
+
+
+
+
+// Dodaj obsługę resetowania szerokości, gdy kliknięta zostanie inna karta
+function showCard(card) {
+  cardDetails.classList.remove("character-active");
+  // ... reszta showCard jak poprzednio
+}
+
+
+function loadCharacterData() {
+  document.getElementById('char-name').textContent = character.name;
+  document.getElementById('char-hp').textContent = character.hp;
+
+  // staty
+  const stats = character.stats;
+  const statsHtml = Object.entries(stats).map(
+    ([key, val]) => `<p><strong>${key.toUpperCase()}:</strong> ${val}</p>`
+  ).join('');
+  document.getElementById('char-stats').innerHTML = statsHtml;
+
+  // ekwipunek
+  const eq = character.equipment;
+  const equipmentHtml = Object.entries(eq).map(
+    ([key, val]) => `<li><strong>${key}:</strong> ${val || '-'}</li>`
+  ).join('');
+  document.getElementById('char-equipment').innerHTML = equipmentHtml;
+
+  // plecak
+  const inv = character.inventory;
+  const invHtml = inv.flat().map(slot => `<div>${slot || '-'}</div>`).join('');
+  document.getElementById('char-inventory').innerHTML = invHtml;
+}
+
+window.onload = loadCharacterData;
